@@ -1,0 +1,138 @@
+{
+  "name": "Tugas 2 PAK",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Halo temanku! 👋\nNamaku Gazoo Racing. Apa yang bisa saya bantu hari ini?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -432,
+        -32
+      ],
+      "id": "8d92d61c-3e35-496f-8b29-5ab8e8e6e645",
+      "name": "When chat message received",
+      "webhookId": "72093125-78a8-47e0-afec-523368ee4603"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah Agen AI yang dapat menjawab dan memberikan saran untuk memilih jenis program pembayaran kepada calon pelanggan di Toyota. Toyota menyediakan berbagai jenis produk diantaranya New Calya, New Camry, New Fortuner G, New Hiace Premio, New GR Corolla dan lain-lain. Untuk pertanyaan nama produk selain yang ada dalam file Google Sheets, berikan jawaban agar bisa mengunjungi website www.toyota.astra.co.id.",
+          "maxIterations": 5
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -224,
+        -32
+      ],
+      "id": "fb9e3198-345c-45a0-aa7b-d329d1700caf",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        176
+      ],
+      "id": "2747a44b-884e-4986-93e7-54034d606316",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "nB4PiFo3BAv6TVOE",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1SiWrWiR52Acf2Yrvnwe2q63_1ctgRqWpj3eh2fOL4pc",
+          "mode": "list",
+          "cachedResultName": "n8n 33",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SiWrWiR52Acf2Yrvnwe2q63_1ctgRqWpj3eh2fOL4pc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SiWrWiR52Acf2Yrvnwe2q63_1ctgRqWpj3eh2fOL4pc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -80,
+        176
+      ],
+      "id": "12022ab6-3f62-4117-ab38-6a43b0947a7e",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "kU1k4sN4aJfTuGRH",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "879a6614-b513-43de-b564-c79fed8586cf",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1201a04715f144c2d49959fa0087564a4bf0849031ef399d09b1b937502bdabb"
+  },
+  "id": "fKmBeDKlAUzGxeQe",
+  "tags": []
+}
